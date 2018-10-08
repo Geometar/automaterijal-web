@@ -1,0 +1,63 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+    <mat-toolbar color="primary">Meni</mat-toolbar>
+    <mat-nav-list>
+      <h3 mat-subheader>Automaterijal</h3>
+      <mat-list-item class="material-icons" [routerLink]="['roba']">
+        <mat-icon mat-list-icon>home</mat-icon>
+        <p mat-line>Naslovna</p>
+      </mat-list-item>
+
+      <mat-list-item class="material-icons" [routerLink]="['o-nama']">
+        <mat-icon mat-list-icon>book</mat-icon>
+        <p mat-line>O nama</p>
+      </mat-list-item>
+
+      <mat-list-item class="material-icons" [routerLink]="['kontakt']">
+        <mat-icon mat-list-icon>contact_phone</mat-icon>
+        <p mat-line>Kontakt</p>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+      <h3 mat-subheader>Internet prodavnica</h3>
+
+      <mat-list-item class="material-icons" [routerLink]="['roba']">
+        <mat-icon mat-list-icon>searche</mat-icon>
+        <p mat-line>Roba - pretraga</p>
+      </mat-list-item>
+
+      <mat-list-item class="material-icons" [routerLink]="['korpa']">
+        <mat-icon mat-list-icon>shopping_cart</mat-icon>
+        <p mat-line>Korpa</p>
+      </mat-list-item>
+
+      <mat-list-item class="material-icons" [routerLink]="['korpa']">
+        <mat-icon mat-list-icon>invert_colors</mat-icon>
+        <p mat-line>Ulja</p>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+      <h3 mat-subheader>Moj Profil</h3>
+      <mat-list-item class="material-icons" [routerLink]="['korpa']">
+        <mat-icon mat-list-icon>person</mat-icon>
+        <p mat-line>Licni Podaci</p>
+      </mat-list-item>
+      <mat-list-item class="material-icons" [routerLink]="['korpa']">
+        <mat-icon mat-list-icon>list</mat-icon>
+        <p mat-line>Porudzbine</p>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Automaterijal - internet prodavnica</span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
