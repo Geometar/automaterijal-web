@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Roba, RobaPage } from '../model/roba';
 import { map } from 'rxjs/operators';
-import { HttpParams } from '@angular/common/http';
 import { Sort } from '@angular/material';
 
 const DOMAIN_URL = 'http://localhost:8080/api'

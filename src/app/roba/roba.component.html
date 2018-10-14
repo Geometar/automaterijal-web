@@ -1,72 +1,115 @@
 <div class="grid-container">
     <div class="forms-input">
         <input type="text" class="search__input" [(ngModel)]="searchValue" (keyup.enter)="pronadjiSvuRobu (searchValue)" />
-        <span class="search_deleted" (click)="searchValue='';pronadjiSvuRobu (searchValue)">
-            <button mat-icon-button>
-                <mat-icon>clear</mat-icon>
-            </button>
-        </span>
         <span class="search_deleted" (click)='pronadjiSvuRobu(searchValue)'>
-            <button mat-icon-button>
+            <button mat-mini-fab color="primary">
                 <mat-icon>search</mat-icon>
             </button>
         </span>
+        <span class="search_icon" (click)='toogleFilterDiv()'>
+            <button *ngIf="!otvoriFilterDiv" mat-mini-fab color="primary">
+                <mat-icon>view_headline</mat-icon>
+            </button>
+            <button *ngIf="otvoriFilterDiv" mat-mini-fab color="warn">
+                <mat-icon>view_headline</mat-icon>
+            </button>
+        </span>
+        <label *ngIf="pocetnoPretrazivanje" class="labela">
+            <font color="#9e9e9e"> Ukucajte kataloski broj</font>
+        </label>
+        <label *ngIf="searchMinTriKarakteraPrekrseno" class="labela">
+            <font color="firebrick">Minimum 3 karaktera</font>
+        </label>
     </div>
+    <div *ngIf="otvoriFilterDiv" class="filter-div">
+        <mat-grid-list cols="4" rowHeight="39px">
+            <mat-grid-tile [colspan]="4" class="tile-header"color="primary">
+                <h3>
+                    <font color="white">Filter</font>
+                </h3>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" ><p >Proizvodjac: </p></mat-grid-tile>
+            <mat-grid-tile [colspan]="3">
+                <mat-form-field class="filter-form">
+                    <mat-select placeholder="Proizvodjac" [(ngModel)]="izabraniProizvodjac">
+                        <mat-option *ngFor="let proizvodjac of proizvodjaci" [value]="proizvodjac.naziv">
+                            {{proizvodjac.naziv}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1"><p>Raspolozivost: </p></mat-grid-tile>
+            <mat-grid-tile [colspan]="3">
+                <mat-form-field class="filter-form">
+                    <mat-select placeholder="Raspolozivost: " [(ngModel)]="izabranaRaspolozivost">
+                        <mat-option *ngFor="let raspoloziv of raspolozivost" [value]="raspoloziv">
+                            {{raspoloziv}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1"></mat-grid-tile>
+            <mat-grid-tile [colspan]="1"> <button mat-stroked-button color="primary">Filtriraj</button></mat-grid-tile>
+            <mat-grid-tile [colspan]="1"><button mat-stroked-button color="warn" (click)='resetujFilter()'>Ponisti</button></mat-grid-tile>
+            <mat-grid-tile [colspan]="1"></mat-grid-tile>
+        </mat-grid-list>
+    </div>
+    <div *ngIf="!pocetnoPretrazivanje || searchMinTriKarakteraPrekrseno">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+            <!-- Kataloski broj Column -->
+            <ng-container matColumnDef="katbr">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.katbr}} </td>
+            </ng-container>
 
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
-        <!-- Kataloski broj Column -->
-        <ng-container matColumnDef="katbr">
-            <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.katbr}} </td>
-        </ng-container>
+            <!-- Kataloski broj proizvodjaca Column -->
+            <ng-container matColumnDef="katbrpro">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj proizvodjaca </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.katbrpro}} </td>
+            </ng-container>
 
-        <!-- Kataloski broj proizvodjaca Column -->
-        <ng-container matColumnDef="katbrpro">
-            <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj proizvodjaca </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.katbrpro}} </td>
-        </ng-container>
+            <!-- Naziv Column -->
+            <ng-container matColumnDef="naziv">
+                <th mat-header-cell *matHeaderCellDef> Naziv </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.naziv}} </td>
+            </ng-container>
 
-        <!-- Naziv Column -->
-        <ng-container matColumnDef="naziv">
-            <th mat-header-cell *matHeaderCellDef> Naziv </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.naziv}} </td>
-        </ng-container>
+            <!-- Proizvodjac Column -->
+            <ng-container matColumnDef="proizvodjac">
+                <th mat-header-cell *matHeaderCellDef> Proizvodjac </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.proizvodjac}} </td>
+            </ng-container>
 
-        <!-- Proizvodjac Column -->
-        <ng-container matColumnDef="proizvodjac">
-            <th mat-header-cell *matHeaderCellDef> Proizvodjac </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.proizvodjac}} </td>
-        </ng-container>
+            <!-- Grupa Column -->
+            <ng-container matColumnDef="grupa">
+                <th mat-header-cell *matHeaderCellDef> Grupa </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.grupa}} </td>
+            </ng-container>
 
-        <!-- Grupa Column -->
-        <ng-container matColumnDef="grupa">
-            <th mat-header-cell *matHeaderCellDef> Grupa </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.grupa}} </td>
-        </ng-container>
+            <!-- Podgrupa Column -->
+            <ng-container matColumnDef="podGrupa">
+                <th mat-header-cell *matHeaderCellDef> Podgrupa </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.podGrupa}} </td>
+            </ng-container>
 
-        <!-- Podgrupa Column -->
-        <ng-container matColumnDef="podGrupa">
-            <th mat-header-cell *matHeaderCellDef> Podgrupa </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.podGrupa}} </td>
-        </ng-container>
+            <!-- Cena Column -->
+            <ng-container matColumnDef="cena">
+                <th mat-header-cell *matHeaderCellDef> Cena </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.cena}} </td>
+            </ng-container>
 
-        <!-- Cena Column -->
-        <ng-container matColumnDef="cena">
-            <th mat-header-cell *matHeaderCellDef> Cena </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.cena}} </td>
-        </ng-container>
+            <!-- Stanje Column -->
+            <ng-container matColumnDef="stanje">
+                <th mat-header-cell *matHeaderCellDef> Stanje </th>
+                <td mat-cell *matCellDef="let roba"> {{roba.stanje}} </td>
+            </ng-container>
 
-        <!-- Stanje Column -->
-        <ng-container matColumnDef="stanje">
-            <th mat-header-cell *matHeaderCellDef> Stanje </th>
-            <td mat-cell *matCellDef="let roba"> {{roba.stanje}} </td>
-        </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <mat-paginator #paginator [length]="tableLength" [pageSize]="rowsPerPage" [pageSizeOptions]="[5, 10, 25]"
-        [pageIndex]="pageIndex" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">
-    </mat-paginator>
+        <mat-paginator #paginator [length]="tableLength" [pageSize]="rowsPerPage" [pageSizeOptions]="[5, 10, 25]"
+            [pageIndex]="pageIndex" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">
+        </mat-paginator>
+    </div>
 </div>

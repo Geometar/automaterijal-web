@@ -1,25 +1,73 @@
-table {
-    width: 98%;
-    margin: 1%;
-  }
 .forms-input {
   border-radius: 45px;
   background: white;
   border:2px solid grey;
-  width: 30%;
-  height: 45px;
-  margin-left: 1%;
+  width: 50%;
+  height: 60px;
+  margin-left: 25%;
   font-weight: bold;
   text-align: center;
 }
 
+.filter-div {
+  margin-left: 35%;
+  background: white;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,1.12); 
+  width: 30%;
+  height: 160px;
+  margin-top: 3%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-header {
+  background-color: #3f51b5;
+}
+.mat-mini-fab {
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  margin-left: 2px;
+}
+.grid-text-right {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-form {
+  width: 80%;
+}
+
+.labela {
+  display: block;
+  margin-top: 1%;
+  font-size: 0.9rem;
+}
 .search__input {
-  width: 75%;
+  width: 85%;
   height: 75%;
   margin: 1%;
   font-weight: bold;
   text-align: center;
   border: none;
+}
+
+.mat-icon-button {
+  padding: 0;
+  min-width: 0;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  line-height: 40px;
+  border-radius: 50%;
 }
 
 input {
@@ -30,25 +78,22 @@ input:focus {
   outline:none;
 }
 
-.grid-container {
-  margin: 20px;
-}
-
-.search_deleted {
+.search-icon {
   width: 3%;
   height: 100%;
   border: none;
+  margin-left: 2px;
 }
 
 @media only screen and (max-device-width : 640px) { 
 .forms-input {
   border-radius: 45px;
   background: white;
-  border-color: black;
-  border: 1px;
+  border:2px solid grey;
   width:100%;
   height: 40px;
   margin-left: 1%;
+  margin-bottom: 5%;
   font-weight: bold;
   text-align: center;
   }
@@ -59,5 +104,33 @@ input:focus {
     font-weight: bold;
     text-align: center;
     border: none;
+  }
+
+  .filter-div {
+    margin-left: 2%;
+    background: white;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,1.12); 
+    width: 95%;
+    height: 165px;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h3 {
+    font-size: 1.05em;
+  }
+
+  p {
+    display: block;
+    font-size: 0.85em;
+  }
+
+  label {
+    font-size: 0.85em;
+  }
+  .filter-form {
+    width: 90%;
   }
 }

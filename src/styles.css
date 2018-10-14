@@ -2,3 +2,34 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+.red-icon {
+    color: firebrick;
+}
+
+.blue-icon {
+    color: blue;
+}
+
+.grid-container {
+    margin: 2%;
+}
+
+.container-search {
+    width: 100%;
+}
+
+table {
+    width: 98%;
+    margin: 1%;
+    margin-top: 2%;
+}
+
+mat-paginator {
+    width: 98%;
+    margin: 1%;
+}
+
+.mat-spinner {
+    margin-left: 45%;
+}
