@@ -1,5 +1,4 @@
 <div class="container-fluid">
-
     <div class="d-flex align-items-center justify-content-center">
         <div class="forms-input">
             <input class="p-1 flex-grow-1 search__input" type="search" [(ngModel)]="searchValue" (keyup.enter)="pronaciPoTrazenojReci(searchValue)" />
@@ -58,9 +57,8 @@
         </div>
     </div>
 
-
     <div class="tabela-div mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
             <!-- Kataloski broj Column -->
             <ng-container matColumnDef="katbr">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj </th>
@@ -124,7 +122,6 @@
                 </td>
             </ng-container>
 
-
             <!-- Kolicina Column -->
             <ng-container matColumnDef="kolicina">
                 <th mat-header-cell *matHeaderCellDef>Kolicina </th>
@@ -155,8 +152,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
         <mat-paginator #paginator [length]="tableLength" [pageSize]="rowsPerPage" [pageSizeOptions]="[5, 10, 25]"
-            [pageIndex]="pageIndex" [length]="tableLength" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">
+            [pageIndex]="pageIndex" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">
         </mat-paginator>
     </div>
 </div>

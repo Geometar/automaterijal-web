@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatButtonModule, MatCheckboxModule, MatTableModule, MatTabsModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatPaginatorModule, MatSortModule, MatExpansionModule, MatFormField, MatFormFieldModule, MatChipsModule, MatSelectModule, MatAutocompleteModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatTableModule, MatTabsModule,
+  MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule,
+   MatCardModule, MatMenuModule, MatPaginatorModule, MatSortModule, MatExpansionModule,
+    MatFormField, MatFormFieldModule, MatChipsModule, MatSelectModule, MatAutocompleteModule, 
+    MatRadioModule, MatSnackBarModule, MatBadgeModule, MatDialogModule} from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -9,9 +13,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatCheckboxModule,
     MatExpansionModule,
+    MatDialogModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatChipsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
+    MatBadgeModule,
+    MatRadioModule,
     MatSelectModule,
     MatAutocompleteModule,
     MatCheckboxModule,
@@ -34,10 +42,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatCheckboxModule,
     MatExpansionModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
+    MatBadgeModule,
+    MatRadioModule,
     MatFormFieldModule,
     FormsModule,
+    MatDialogModule,
     MatChipsModule,
+    MatSnackBarModule,
     MatSelectModule,
     MatAutocompleteModule,
     MatCheckboxModule,

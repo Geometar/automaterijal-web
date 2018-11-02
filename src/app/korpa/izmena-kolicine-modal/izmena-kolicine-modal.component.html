@@ -1,0 +1,34 @@
+<div class="container">
+  <div>
+    <p class="mat-title">
+      Artikal broj: {{data.katbr}}
+    </p>
+  </div>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>Proizvodjac</td>
+        <td>{{data.proizvodjac}}</td>
+      </tr>
+      <tr>
+        <td>Cena</td>
+        <td>{{data.cenaKom}}</td>
+      <tr>
+        <td>Kolicina</td>
+        <td>
+            <select class="custom-select custom-select-md" [(ngModel)]="data.kolicina">
+                <option *ngFor="let kolicina of stanje" [value]="kolicina">{{kolicina}}</option>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Ukupno za placanje</td>
+        <td>{{data.kolicina * data.cenaKom}} DIN</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="float-right col-10">
+    <button type="button" class="btn btn-primary" (click)="sacuvajIzmene()">Sacuvaj</button>
+    <button type="button" class="btn btn-danger pomeri" (click)="bezIzmena()">Ponisti</button>
+  </div>
+</div>

@@ -4,7 +4,7 @@
     <mat-toolbar color="primary">Meni</mat-toolbar>
     <mat-nav-list>
       <h3 mat-subheader>Automaterijal</h3>
-      <mat-list-item class="material-icons" [routerLink]="['roba']">
+      <mat-list-item class="material-icons" [routerLink]="['naslovna']">
         <mat-icon mat-list-icon>home</mat-icon>
         <p mat-line>Naslovna</p>
       </mat-list-item>
@@ -19,6 +19,7 @@
         <p mat-line>Kontakt</p>
       </mat-list-item>
     </mat-nav-list>
+
     <mat-divider></mat-divider>
     <mat-nav-list>
       <h3 mat-subheader>Internet prodavnica</h3>
@@ -27,17 +28,33 @@
         <mat-icon mat-list-icon>searche</mat-icon>
         <p mat-line>Roba - pretraga</p>
       </mat-list-item>
+      
 
+      <mat-list-item class="material-icons" [routerLink]="['ulja']">
+          <mat-icon mat-list-icon>invert_colors</mat-icon>
+          <p mat-line>Ulja</p>
+        </mat-list-item>        
+
+      <mat-list-item class="material-icons" [routerLink]="['filteri']">
+          <mat-icon mat-list-icon>layers</mat-icon>
+          <p mat-line>Filteri</p>
+      </mat-list-item>
+
+      <mat-list-item class="material-icons" [routerLink]="['akumulatori']">
+          <mat-icon mat-list-icon>battery_charging_full</mat-icon>
+          <p mat-line>Akumulatori</p>
+        </mat-list-item>
+
+        <mat-list-item class="material-icons" [routerLink]="['korpa']">
+            <mat-icon mat-list-icon>category</mat-icon>
+            <p mat-line>Ostalo</p>
+          </mat-list-item>
       <mat-list-item class="material-icons" [routerLink]="['korpa']">
-        <mat-icon mat-list-icon>shopping_cart</mat-icon>
+        <mat-icon  matBadge="{{test}}" matBadgeColor="warn" mat-list-icon>shopping_cart</mat-icon>
         <p mat-line>Korpa</p>
       </mat-list-item>
-
-      <mat-list-item class="material-icons" [routerLink]="['korpa']">
-        <mat-icon mat-list-icon>invert_colors</mat-icon>
-        <p mat-line>Ulja</p>
-      </mat-list-item>
     </mat-nav-list>
+
     <mat-divider></mat-divider>
     <mat-nav-list>
       <h3 mat-subheader>Moj Profil</h3>

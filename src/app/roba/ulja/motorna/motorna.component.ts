@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { RobaService } from '../service/roba.service';
-import { Roba } from '../model/roba';
-import { takeWhile } from 'rxjs/operators';
-import { LoadingData } from '../model/loading';
+import { Roba } from 'src/app/model/roba';
+import { Proizvodjac } from 'src/app/model/proizvodjac';
+import { RobaService } from 'src/app/service/roba.service';
+import { ProizvodjacService } from 'src/app/service/proizvodjac.service';
 import { Sort, MatSnackBar } from '@angular/material';
-import { Proizvodjac } from '../model/proizvodjac';
-import { ProizvodjacService } from '../service/proizvodjac.service';
-import { DataService } from '../service/data.service';
-import { Korpa, RobaKorpa } from '../model/porudzbenica';
-import { AppUtilsService } from '../utils/app-utils.service';
-
+import { takeWhile } from 'rxjs/operators';
+import { AppUtilsService } from 'src/app/utils/app-utils.service';
+import { DataService } from 'src/app/service/data.service';
+import { Korpa } from 'src/app/model/porudzbenica';
 @Component({
-  selector: 'app-roba',
-  templateUrl: './roba.component.html',
-  styleUrls: ['./roba.component.css']
+  selector: 'app-motorna',
+  templateUrl: './motorna.component.html',
+  styleUrls: ['./motorna.component.css']
 })
-export class RobaComponent implements OnInit {
+export class MotornaComponent implements OnInit {
 
   public roba: Roba[];
   public proizvodjaci: Proizvodjac[];
@@ -34,7 +32,6 @@ export class RobaComponent implements OnInit {
   public searchValue = '';
   public lastSearchValue = '';
   public pocetnoPretrazivanje: boolean;
-
   public ucitavanje = false;
   public otvoriFilterDiv = false;
   public displayedColumns: string[] = ['katbr', 'katbrpro', 'naziv'
@@ -43,13 +40,15 @@ export class RobaComponent implements OnInit {
 
   private alive = true;
   private korpa: Korpa;
+  
+  private vrstaUlja = 'motorna';
 
-  constructor(private robaService: RobaService,
-    private proizvodjacService: ProizvodjacService,
-    private dataService: DataService,
+  constructor(
+    private robaService: RobaService,
     private utilsService: AppUtilsService,
-    public korpaSnackBar: MatSnackBar
-    ) { }
+     private proizvodjacService: ProizvodjacService,
+     private dataService: DataService,
+     public korpaSnackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.pocetnoPretrazivanje = true;
@@ -57,12 +56,16 @@ export class RobaComponent implements OnInit {
     this.pronadjiSveProizvodjace();
   }
 
-  pronadjiSvuRobu() {
-    this.robaService.pronadjiSvuRobu(this.sort, this.rowsPerPage, this.pageIndex, null, null, null)
+  pronandjiSvoMotornoUlje() {
+    this.ucitavanje = true;
+    this.dataSource = null;
+
+    this.robaService.pronadjiUlje(this.sort, this.rowsPerPage, this.pageIndex, null, null, null, this.vrstaUlja)
       .pipe(takeWhile(() => this.alive))
       .subscribe(
         res => {
           this.roba = res.content;
+          this.dataSource = this.roba;
           this.dataSource = this.roba;
           this.rowsPerPage = res.size;
           this.pageIndex = res.number;
@@ -74,21 +77,14 @@ export class RobaComponent implements OnInit {
         });
   }
 
-  pronaciPoTrazenojReci(searchValue) {
-      if (this.dataSource) {
-        this.pageIndex = 0;
-      }
-      this.pronadjiSvuRobuPoPretrazi(searchValue);
-  }
-
-  pronadjiSvuRobuPoPretrazi(searchValue) {
+  pronadjiEntitetePoPretrazi(searchValue) {
     this.pocetnoPretrazivanje = false;
     this.lastSearchValue = searchValue;
     this.ucitavanje = true;
     this.dataSource = null;
     const naStanju = this.utilsService.daLiRobaTrebaDaBudeNaStanju(this.raspolozivost, this.izabranaRaspolozivost);
     const proizvodjacId = this.utilsService.vratiIdProizvodjacaAkoPostoji(this.izabraniProizvodjac, this.proizvodjaci);
-    this.robaService.pronadjiSvuRobu(this.sort, this.rowsPerPage, this.pageIndex, searchValue, naStanju, proizvodjacId)
+    this.robaService.pronadjiUlje(this.sort, this.rowsPerPage, this.pageIndex, searchValue, naStanju, proizvodjacId, this.vrstaUlja)
       .pipe(takeWhile(() => this.alive))
       .subscribe(
         res => {
@@ -105,12 +101,12 @@ export class RobaComponent implements OnInit {
   }
 
   pronadjiSveProizvodjace() {
-    this.proizvodjacService.pronadjiSveProizvodjace()
+    this.proizvodjacService.pronadjiSveProizvodjaceUljaPoVrsti(this.vrstaUlja)
       .pipe(takeWhile(() => this.alive))
       .subscribe(res => {
         this.proizvodjaci = res;
         this.izabraniProizvodjac = this.proizvodjaci[0].naziv;
-        this.pronadjiSvuRobu();
+        this.pronandjiSvoMotornoUlje();
       },
         error => {
           this.proizvodjaci = null;
@@ -118,24 +114,23 @@ export class RobaComponent implements OnInit {
         });
   }
 
+  pronaciPoTrazenojReci(searchValue) {
+    if (this.dataSource) {
+      this.pageIndex = 0;
+    }
+    this.pronadjiEntitetePoPretrazi(searchValue);
+  }
+
   paginatorEvent(pageEvent) {
     this.dataSource = [];
     this.rowsPerPage = pageEvent.pageSize;
     this.pageIndex = pageEvent.pageIndex;
-    this.pronadjiSvuRobuPoPretrazi(this.searchValue);
+    this.pronadjiEntitetePoPretrazi(this.searchValue);
   }
 
   sortData(sort: Sort) {
     this.sort = sort;
-    let searchTerm;
-    if (this.lastSearchValue) {
-      searchTerm = this.lastSearchValue;
-    } else if (this.searchValue) {
-      searchTerm = this.searchValue;
-    } else {
-      searchTerm = null;
-    }
-    this.pronadjiSvuRobuPoPretrazi(this.searchValue);
+    this.pronadjiEntitetePoPretrazi(this.searchValue);
   }
 
   toogleFilterDiv() {
@@ -157,7 +152,7 @@ export class RobaComponent implements OnInit {
     }
     let recZaPretragu: string;
     recZaPretragu = this.searchValue;
-    this.pronadjiSvuRobuPoPretrazi(recZaPretragu);
+    this.pronadjiEntitetePoPretrazi(recZaPretragu);
   }
 
   dodajUKorpu(roba: Roba) {
@@ -172,7 +167,7 @@ export class RobaComponent implements OnInit {
     });
   }
 
-  uKorpi(katBr: string) {
+  uKorpi(katBr: string): boolean {
     return this.utilsService.daLiJeRobaUKorpi(this.korpa, katBr);
   }
 }

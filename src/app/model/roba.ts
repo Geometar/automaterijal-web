@@ -1,4 +1,4 @@
-import { Page } from "./page";
+import { Page } from './page';
 
 export class Roba {
     public katbr: string;
@@ -9,6 +9,7 @@ export class Roba {
     public podGrupa: string;
     public stanje: number;
     public cena: number;
+    public kolicina: number;
 }
 
 export class RobaPage extends Page {

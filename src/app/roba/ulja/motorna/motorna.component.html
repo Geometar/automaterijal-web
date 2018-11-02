@@ -1,66 +1,64 @@
 <div class="container-fluid">
-
-    <div class="d-flex align-items-center justify-content-center">
-        <div class="forms-input">
-            <input class="p-1 flex-grow-1 search__input" type="search" [(ngModel)]="searchValue" (keyup.enter)="pronaciPoTrazenojReci(searchValue)" />
-            <div class="p-1" (click)='pronaciPoTrazenojReci(searchValue)'>
-                <button mat-mini-fab color="primary">
-                    <mat-icon>search</mat-icon>
-                </button>
-            </div>
-            <div class="p-1" (click)='toogleFilterDiv()'>
-                <button *ngIf="!otvoriFilterDiv" mat-mini-fab color="primary">
-                    <mat-icon>view_headline</mat-icon>
-                </button>
-                <button *ngIf="otvoriFilterDiv" mat-mini-fab color="warn">
-                    <mat-icon>view_headline</mat-icon>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
-        <label *ngIf="pocetnoPretrazivanje" class="mat-caption">
-            <font color="#424242"> Ukucajte kataloski broj</font>
-        </label>
-    </div>
-
-    <div class="d-flex justify-content-center" *ngIf="otvoriFilterDiv">
-        <div class="filter-div-test d-flex flex-column">
-            <div class="d-flex justify-content-center">
-                <h4>
-                    Filter
-                </h4>
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Proizvodjac: </label>
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="forms-input">
+                <input class="p-1 flex-grow-1 search__input" type="search" [(ngModel)]="searchValue" (keyup.enter)="pronaciPoTrazenojReci(searchValue)" />
+                <div class="p-1" (click)='pronaciPoTrazenojReci(searchValue)'>
+                    <button mat-mini-fab color="primary">
+                        <mat-icon>search</mat-icon>
+                    </button>
                 </div>
-                <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="izabraniProizvodjac">
-                    <option *ngFor="let proizvodjac of proizvodjaci" [value]="proizvodjac.naziv">{{proizvodjac.naziv}}</option>
-                </select>
-            </div>
-
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Raspolozivost: </label>
-                </div>
-                <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="izabranaRaspolozivost">
-                    <option *ngFor="let raspoloziv of raspolozivost" [value]="raspoloziv">{{raspoloziv}}</option>
-                </select>
-            </div>
-            <div class="d-flex justify-content-center">
-                <div>
-                    <button mat-stroked-button color="primary" (click)='filtriraj()'>Filtriraj</button>
-                    <span class="col-2"></span>
-                    <button mat-stroked-button color="warn" (click)='resetujFilter()'>Ponisti</button>
+                <div class="p-1" (click)='toogleFilterDiv()'>
+                    <button *ngIf="!otvoriFilterDiv" mat-mini-fab color="primary">
+                        <mat-icon>view_headline</mat-icon>
+                    </button>
+                    <button *ngIf="otvoriFilterDiv" mat-mini-fab color="warn">
+                        <mat-icon>view_headline</mat-icon>
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="d-flex justify-content-center">
+            <label *ngIf="pocetnoPretrazivanje" class="mat-caption">
+                <font color="#424242"> Ukucajte kataloski broj</font>
+            </label>
+        </div>
+    
+        <div class="d-flex justify-content-center" *ngIf="otvoriFilterDiv">
+            <div class="filter-div-test d-flex flex-column">
+                <div class="d-flex justify-content-center">
+                    <h4>
+                        Filter
+                    </h4>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Proizvodjac: </label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="izabraniProizvodjac">
+                        <option *ngFor="let proizvodjac of proizvodjaci" [value]="proizvodjac.naziv">{{proizvodjac.naziv}}</option>
+                    </select>
+                </div>
+    
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Raspolozivost: </label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="izabranaRaspolozivost">
+                        <option *ngFor="let raspoloziv of raspolozivost" [value]="raspoloziv">{{raspoloziv}}</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div>
+                        <button mat-stroked-button color="primary" (click)='filtriraj()'>Filtriraj</button>
+                        <span class="col-2"></span>
+                        <button mat-stroked-button color="warn" (click)='resetujFilter()'>Ponisti</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-    <div class="tabela-div mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+        <div class="tabela-div mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
             <!-- Kataloski broj Column -->
             <ng-container matColumnDef="katbr">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj </th>
@@ -124,17 +122,17 @@
                 </td>
             </ng-container>
 
-
             <!-- Kolicina Column -->
             <ng-container matColumnDef="kolicina">
                 <th mat-header-cell *matHeaderCellDef>Kolicina </th>
                 <td mat-cell *matCellDef="let roba">
                     <div *ngIf="roba.stanje > 0">
-                            <input type="number" min="1" max="{{roba.stanje}}" class="kolicina-labela" [(ngModel)]="roba.kolicina" class="kolicina-input" />
+                        <input type="number" min="1" max="{{roba.stanje}}" class="kolicina-labela" [(ngModel)]="roba.kolicina"
+                            class="kolicina-input" />
                     </div>
             </ng-container>
 
-            <!-- Kropa dugme Column -->
+          <!-- Kropa dugme Column -->
             <ng-container matColumnDef="korpa">
                 <th mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let roba">
@@ -148,15 +146,16 @@
                 <th mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let roba">
                     <div *ngIf="uKorpi(roba.katbr)">
-                        <mat-icon color="accent">add_shopping_cart</mat-icon>
+                            <mat-icon color="accent">add_shopping_cart</mat-icon>
                     </div>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
         <mat-paginator #paginator [length]="tableLength" [pageSize]="rowsPerPage" [pageSizeOptions]="[5, 10, 25]"
-            [pageIndex]="pageIndex" [length]="tableLength" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">
+            [pageIndex]="pageIndex" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">
         </mat-paginator>
     </div>
 </div>
