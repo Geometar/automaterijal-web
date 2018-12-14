@@ -1,0 +1,243 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "src/automaterijal-theme.scss";
+
+// Stilovi za html elemente
+html, body { 
+  height: 100%; 
+}
+body { margin: 0; font-family: 'Roboto', sans-serif; }
+p {
+  font-size: 14px;
+  padding: 0px;
+  margin: 0px;
+  color: $automaterijal-grey-50;
+  font-family: sans-serif;
+  display: block;
+  padding: 0px;
+  margin: 0px;
+}
+
+h2{
+  font-size: 28px;
+  color: $automaterijal-grey-50 !important;
+}
+
+button {
+  outline: none !important;
+}
+
+table {
+  width: 100%;
+  margin-top: 2%;
+}
+
+input {
+  font-size:18px;
+}
+
+input:focus {
+  outline:none;
+}
+
+snack-bar-container {
+  background-color: $automaterijal-primary-50 !important;
+  color: $automaterijal-grey-400;
+}
+
+// -----------------------------------------------------------------
+// Stilovi za dugmad
+
+.button-glavni-50 {
+  background-color: $automaterijal-primary-50 !important;
+  color: $automaterijal-grey-400 !important;
+}
+
+.button-glavni {
+  background-color: $automaterijal-primary-100 !important;
+  color: $automaterijal-grey-400 !important;
+}
+.button-polu-glavni {
+  background-color: $automaterijal-primary-200 !important;
+}
+
+.button-change {
+  background-color: $automaterijal-accent-yellow-50;
+}
+.button-error {
+  background-color: $automaterijal-accent-red-50;
+  color: $automaterijal-grey-400;
+}
+
+.button-confirm {
+  background-color: $automaterijal-accent-green-50;
+}
+
+.boja-error {
+  color: $automaterijal-accent-red-50;
+}
+
+// -----------------------------------------------------------------
+// Stilovi za boje
+
+.boja-glavna {
+  color: $automaterijal-primary-100 !important;
+}
+
+.boja-kontra-bela {
+  color: $automaterijal-grey-400 !important;
+}
+
+.pozadina-glavna {
+  background-color: $automaterijal-primary-100 !important;
+}
+
+.pozadina-glavna-50 {
+  background-color: $automaterijal-primary-50 !important;
+}
+
+.boja-confirm {
+  color: $automaterijal-accent-green-50;
+}
+
+.boja-change {
+  color: $automaterijal-accent-yellow-50;
+}
+
+//  -----------------------------------------------------------------
+//  Stilovi za klase
+
+.forms-input {
+  display: flex;
+  border-radius: 45px;
+  width: 30%;
+  padding: 1px;
+  margin-top: 50px;
+  background: white;
+  border:2px solid grey;
+  width: 40%;
+  font-weight: bold;
+  text-align: center;
+}
+
+.kolicina-labela {
+width: 50px !important;
+}
+
+.filter-div-test {
+display:flex;
+padding: 10px;
+margin-top: 10px;
+background: white;
+box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,1.12); 
+}
+
+.centar {
+text-align:center; 
+display:flex;
+}
+
+.razmak {
+  margin-left: 10px;
+}
+
+.search__input {
+  border: none;
+  margin-left: 5%;
+}
+
+.mat-icon-button {
+  padding: 0;
+  min-width: 0;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  line-height: 40px;
+  border-radius: 50%;
+}
+
+.search-icon {
+  width: 3%;
+  height: 100%;
+  border: none;
+  margin-left: 2px;
+}
+
+.grid-container {
+  margin: 2%;
+}
+
+.container-search {
+  width: 100%;
+}
+
+.tabela-div {
+  width: 90%;
+  margin-left: 5%;
+}
+
+.iznos-margin {
+  margin-right: 5%;
+}
+
+// Prazna strana stilovi
+.h1-upozorenje {
+  color: $automaterijal-grey-200 !important;
+  text-align: center;
+  font-size: 50px
+}
+
+.prazna-tabela {
+  margin-top: 15%;
+  align-items: center;
+}
+
+.icon-size {
+  font-size: 50px !important;
+  color: $automaterijal-grey-200;
+  text-align: center;
+}
+
+// -----------------------------------------------------------------
+// Stilovi za uredjaje sa manjim ekranom
+
+@media only screen and (max-device-width : 640px) { 
+  body {
+    width: 100%;
+    margin-top: 70px;
+  }
+  
+.forms-input {
+  border-radius: 45px;
+  background: white;
+  border:2px solid grey;
+  width:100%;
+  margin-left: 1%;
+  margin-top: 70px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  }
+
+  .search__input {
+    margin-left: 5%;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+  }
+
+  .tabela-div {
+    width: 98%;
+    margin-left: 1%;
+    // display: flex;
+    overflow-x: auto;
+    justify-content: center;
+  }  
+  .filter-form {
+      width: 90%;
+  }
+
+  .razmak {
+      margin-left: 0px;
+  }
+}

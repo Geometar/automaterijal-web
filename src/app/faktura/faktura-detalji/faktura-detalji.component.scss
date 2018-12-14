@@ -1,0 +1,54 @@
+@import "src/automaterijal-theme.scss";
+
+h1 {
+   color:  $automaterijal-primary-50;
+   font-size: 32px;
+   font-weight: bold;
+   margin-left: 6%;
+   margin-top: 25px;
+}
+
+p {
+    font-size: 15px;
+}
+
+table {
+    margin: 0px !important;
+}
+
+.nazad-button {
+    border-radius: 12px;
+    margin-right: 5%;
+    width: 120px !important;
+    height: 40px !important;
+}
+
+.greska-button {
+    position: relative;
+    top: 50px;
+}
+
+.detalji-div {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.h1-upozorenje {
+  color: $automaterijal-grey-200 !important;
+  text-align: center;
+  font-size: 50px !important;
+  margin: 0% !important;
+}
+
+
+@media only screen and (max-device-width : 640px) { 
+
+    .nazad-button {
+        border-radius: 12px;
+        margin-right: 0% !important;
+    }
+    .greska-button {
+        position: relative;
+        top: 5px;
+    }
+}

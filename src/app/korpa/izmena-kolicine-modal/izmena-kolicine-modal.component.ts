@@ -1,14 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { Roba } from 'src/app/model/roba';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { RobaKorpa } from 'src/app/model/porudzbenica';
-import { LocalStorageService } from 'src/app/service/local-storage.service';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-izmena-kolicine-modal',
   templateUrl: './izmena-kolicine-modal.component.html',
-  styleUrls: ['./izmena-kolicine-modal.component.css']
+  styleUrls: ['./izmena-kolicine-modal.component.scss']
 })
 export class IzmenaKolicineModalComponent implements OnInit {
 

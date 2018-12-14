@@ -21,7 +21,7 @@ width: 50px;
 }
 .filter-div-test {
 display:flex;
-padding: 1%;
+padding: 10px;
 margin-top: 10px;
 background: white;
 box-shadow: 0 3px 1px -2px rgba(0,0,0.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,1.12); 
@@ -32,17 +32,8 @@ text-align:center;
 display:flex;
 }
 
-.filter-div {
-margin-top: 30px;
-margin-left: 2%;
-background: white;
-box-shadow: 0 3px 1px -2px rgba(0,0,0.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,1.12); 
-width: 95%;
-height: 165px;
-margin-top: 3%;
-margin-bottom: 5%;
-display: flex;
-flex-direction: column;
+.razmak {
+  margin-left: 10px;
 }
 
 .search__input {
@@ -94,8 +85,8 @@ mat-paginator {
 }
 
 .tabela-div {
-  width: 70%;
-  margin-left: 15%;
+  width: 80%;
+  margin-left: 10%;
 }
 
 .mat-spinner {
@@ -113,25 +104,22 @@ mat-paginator {
   text-align: center;
   display: flex;
   }
-.search__input {
+
+  .search__input {
     margin-left: 5%;
     font-weight: bold;
     text-align: center;
     border: none;
   }
+
   
-  .filter-div {
-      margin-left: 2%;
-      background: white;
-      box-shadow: 0 3px 1px -2px rgba(0,0,0.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,1.12); 
-      width: 95%;
-      height: 165px;
-      margin-top: 3%;
-      margin-bottom: 5%;
-      display: flex;
-      flex-direction: column;
-    }
-  
+  .tabela-div {
+    width: 95%;
+    margin-left: 2%;
+    display: flex;
+    z-index: 1;
+    justify-content: center;
+  }
   h3 {
       font-size: 1.05em;
     }
@@ -146,6 +134,10 @@ mat-paginator {
     }
   .filter-form {
       width: 90%;
+    }
+
+    .razmak {
+      margin-left: 0px;
     }
 }
 

@@ -1,0 +1,73 @@
+@import "src/automaterijal-theme.scss";
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+  height: 100%;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+}
+
+.header-navigacija {
+  font-size: 13px !important;
+  width: 160px;
+}
+
+.header-sirina {
+  width: 160px !important;
+}
+
+p {
+  font-size: 14px;
+  padding: 0px;
+  margin: 0px;
+  color: $automaterijal-grey-400;
+  font-family: sans-serif;
+  display: block;
+  padding: 0px;
+  margin: 0px;
+}
+
+.is-active {
+  background-color: $automaterijal-primary-200 !important;
+}
+
+mat-divider {
+  border-width: 1px;
+  border-style: solid;
+  border-color: $automaterijal-grey-300;
+}
+
+.icon-color {
+  color: $automaterijal-grey-300;
+}
+
+.user-none {
+  font-size: 60px;
+  text-align: center;
+}
+
+.margin-gore {
+  margin-top: 120px;
+}
+
+.side-toolbar {
+  height: 120px;
+  width: 200px;
+}
+
+.sidebar-color {
+  background-color: $automaterijal-primary-50;
+}
+
+.header-pozicija {
+  top: 0px;
+  position: fixed;
+  z-index:999;
+}

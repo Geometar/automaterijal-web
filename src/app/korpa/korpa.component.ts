@@ -3,18 +3,19 @@ import { DataService } from '../service/data.service';
 import { Korpa, RobaKorpa } from '../model/porudzbenica';
 import { LocalStorageService } from '../service/local-storage.service';
 import { MatTable, MatDialog } from '@angular/material';
-import { Roba } from '../model/roba';
 import { IzmenaKolicineModalComponent } from './izmena-kolicine-modal/izmena-kolicine-modal.component';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-korpa',
   templateUrl: './korpa.component.html',
-  styleUrls: ['./korpa.component.css']
+  styleUrls: ['./korpa.component.scss']
 })
 export class KorpaComponent implements OnInit {
 
   public korpa: Korpa;
+  public bezPdv: string;
+  public pdv: string;
+  public ukupno: string;
   public dataSource: any;
   public displayedColumns: string[] = ['katbr', 'katbrpro', 'naziv'
     , 'proizvodjac', 'kolicina', 'cena', 'izbaciDugme'];
@@ -26,6 +27,7 @@ export class KorpaComponent implements OnInit {
   ngOnInit() {
     this.dataService.trenutnaKorpa.subscribe(korpa => {
       this.korpa = korpa;
+      this.preracunajUkupno();
       this.dataSource = this.korpa.roba;
     });
   }
@@ -37,7 +39,7 @@ export class KorpaComponent implements OnInit {
 
   otvoriDialog(roba: RobaKorpa): void {
     const dialogRef = this.dialog.open(IzmenaKolicineModalComponent, {
-      width: '30%',
+      width: '400px',
       data: roba
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -56,8 +58,19 @@ export class KorpaComponent implements OnInit {
       }
     });
     this.storage.zameniArtikalSaNovim(artikal);
+    this.preracunajUkupno();
     this.dataSource = this.korpa.roba;
     this.table.renderRows();
+  }
+
+  private preracunajUkupno() {
+    this.korpa.ukupno = 0;
+    this.korpa.roba.forEach(roba => {
+      this.korpa.ukupno =  this.korpa.ukupno + roba.cenaUkupno;
+    });
+    this.bezPdv = (this.korpa.ukupno / 1.2).toFixed(2);
+    this.pdv = (this.korpa.ukupno - this.korpa.ukupno / 1.2).toFixed(2);
+    this.ukupno =  this.korpa.ukupno.toFixed(2);
   }
 
 }

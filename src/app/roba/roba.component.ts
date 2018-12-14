@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { RobaService } from '../service/roba.service';
-import { Roba } from '../model/roba';
-import { takeWhile } from 'rxjs/operators';
-import { LoadingData } from '../model/loading';
+import { Roba, Proizvodjac, Partner } from '../model/dto';
+import { takeWhile, finalize, catchError } from 'rxjs/operators';
+import { throwError, EMPTY } from 'rxjs';
 import { Sort, MatSnackBar } from '@angular/material';
-import { Proizvodjac } from '../model/proizvodjac';
 import { ProizvodjacService } from '../service/proizvodjac.service';
 import { DataService } from '../service/data.service';
-import { Korpa, RobaKorpa } from '../model/porudzbenica';
+import { Korpa } from '../model/porudzbenica';
 import { AppUtilsService } from '../utils/app-utils.service';
+import { LoginService } from '../service/login.service';
 
 @Component({
   selector: 'app-roba',
@@ -36,32 +36,68 @@ export class RobaComponent implements OnInit {
   public pocetnoPretrazivanje: boolean;
 
   public ucitavanje = false;
+  public pronadjenaRoba = true;
   public otvoriFilterDiv = false;
-  public displayedColumns: string[] = ['katbr', 'katbrpro', 'naziv'
-    , 'proizvodjac', 'cena', 'stanje', 'kolicina', 'korpa', 'u-korpi'];
+
+  // Tabela
+  private columnDefinitions = [
+    { def: 'katbr', ifNotAuth: true },
+    { def: 'katbrpro', ifNotAuth: true },
+    { def: 'proizvodjac', ifNotAuth: true },
+    { def: 'naziv', ifNotAuth: true },
+    { def: 'cena', ifNotAuth: true },
+    { def: 'stanje', ifNotAuth: true },
+    { def: 'kolicina', ifNotAuth: false },
+    { def: 'korpa', ifNotAuth: false },
+    { def: 'u-korpi', ifNotAuth: false },
+  ];
   public dataSource: any;
 
   private alive = true;
   private korpa: Korpa;
+  public partner: Partner;
 
   constructor(private robaService: RobaService,
     private proizvodjacService: ProizvodjacService,
+    private loginServis: LoginService,
     private dataService: DataService,
     private utilsService: AppUtilsService,
     public korpaSnackBar: MatSnackBar
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.pocetnoPretrazivanje = true;
     this.dataService.trenutnaKorpa.subscribe(korpa => this.korpa = korpa);
+    this.loginServis.ulogovaniPartner.subscribe(partner => this.partner = partner);
     this.pronadjiSveProizvodjace();
   }
 
+  getDisplayedColumns(): string[] {
+    const isPartner = this.partner.ppid != null;
+    const dataColumns = this.columnDefinitions
+      .filter(cd => isPartner || cd.ifNotAuth)
+      .map(cd => cd.def);
+    return dataColumns;
+  }
+
   pronadjiSvuRobu() {
+    this.ucitavanje = true;
+    this.pronadjenaRoba = true;
     this.robaService.pronadjiSvuRobu(this.sort, this.rowsPerPage, this.pageIndex, null, null, null)
-      .pipe(takeWhile(() => this.alive))
+      .pipe(
+        takeWhile(() => this.alive),
+        catchError((error: Response) => {
+          if (error.status === 404) {
+            this.pronadjenaRoba = false;
+            return EMPTY;
+          }
+          return throwError(error);
+        }),
+        finalize(() => this.ucitavanje = false)
+      )
       .subscribe(
         res => {
+          this.pronadjenaRoba = true;
           this.roba = res.content;
           this.dataSource = this.roba;
           this.rowsPerPage = res.size;
@@ -75,23 +111,35 @@ export class RobaComponent implements OnInit {
   }
 
   pronaciPoTrazenojReci(searchValue) {
-      if (this.dataSource) {
-        this.pageIndex = 0;
-      }
-      this.pronadjiSvuRobuPoPretrazi(searchValue);
+    if (this.dataSource) {
+      this.pageIndex = 0;
+    }
+    this.pronadjiSvuRobuPoPretrazi(searchValue);
   }
 
   pronadjiSvuRobuPoPretrazi(searchValue) {
     this.pocetnoPretrazivanje = false;
     this.lastSearchValue = searchValue;
-    this.ucitavanje = true;
     this.dataSource = null;
     const naStanju = this.utilsService.daLiRobaTrebaDaBudeNaStanju(this.raspolozivost, this.izabranaRaspolozivost);
     const proizvodjacId = this.utilsService.vratiIdProizvodjacaAkoPostoji(this.izabraniProizvodjac, this.proizvodjaci);
+    this.ucitavanje = true;
+    this.pronadjenaRoba = true;
     this.robaService.pronadjiSvuRobu(this.sort, this.rowsPerPage, this.pageIndex, searchValue, naStanju, proizvodjacId)
-      .pipe(takeWhile(() => this.alive))
+      .pipe(
+        takeWhile(() => this.alive),
+        catchError((error: Response) => {
+          if (error.status === 404) {
+            this.pronadjenaRoba = false;
+            return EMPTY;
+          }
+          return throwError(error);
+        }),
+        finalize(() => this.ucitavanje = false)
+      )
       .subscribe(
         res => {
+          this.pronadjenaRoba = true;
           this.roba = res.content;
           this.dataSource = this.roba;
           this.rowsPerPage = res.size;

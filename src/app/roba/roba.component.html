@@ -4,15 +4,15 @@
         <div class="forms-input">
             <input class="p-1 flex-grow-1 search__input" type="search" [(ngModel)]="searchValue" (keyup.enter)="pronaciPoTrazenojReci(searchValue)" />
             <div class="p-1" (click)='pronaciPoTrazenojReci(searchValue)'>
-                <button mat-mini-fab color="primary">
+                <button mat-mini-fab class="button-glavni">
                     <mat-icon>search</mat-icon>
                 </button>
             </div>
             <div class="p-1" (click)='toogleFilterDiv()'>
-                <button *ngIf="!otvoriFilterDiv" mat-mini-fab color="primary">
+                <button *ngIf="!otvoriFilterDiv" class="button-glavni" mat-mini-fab>
                     <mat-icon>view_headline</mat-icon>
                 </button>
-                <button *ngIf="otvoriFilterDiv" mat-mini-fab color="warn">
+                <button *ngIf="otvoriFilterDiv" mat-mini-fab class="button-polu-glavni">
                     <mat-icon>view_headline</mat-icon>
                 </button>
             </div>
@@ -27,22 +27,26 @@
     <div class="d-flex justify-content-center" *ngIf="otvoriFilterDiv">
         <div class="filter-div-test d-flex flex-column">
             <div class="d-flex justify-content-center">
-                <h4>
+                <h2>
                     Filter
-                </h4>
+                </h2>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Proizvodjac: </label>
+                    <label class="input-group-text button-glavni-50" for="inputGroupSelect01">
+                        <p class="boja-kontra-bela">Proizvodjac: </p>
+                    </label>
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="izabraniProizvodjac">
-                    <option *ngFor="let proizvodjac of proizvodjaci" [value]="proizvodjac.naziv">{{proizvodjac.naziv}}</option>
+                    <option *ngFor="let proizvodjac of proizvodjaci" [value]="proizvodjac.naziv">
+                        <p>{{proizvodjac.naziv}}</p>
+                    </option>
                 </select>
-            </div>
 
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Raspolozivost: </label>
+                <div class="input-group-prepend razmak">
+                    <label class="input-group-text button-glavni-50" for="inputGroupSelect01">
+                        <p class="boja-kontra-bela">Raspolozivost: </p>
+                    </label>
                 </div>
                 <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="izabranaRaspolozivost">
                     <option *ngFor="let raspoloziv of raspolozivost" [value]="raspoloziv">{{raspoloziv}}</option>
@@ -50,20 +54,34 @@
             </div>
             <div class="d-flex justify-content-center">
                 <div>
-                    <button mat-stroked-button color="primary" (click)='filtriraj()'>Filtriraj</button>
+                    <button mat-stroked-button class="button-glavni" (click)='filtriraj()'>
+                        <p class="boja-kontra-bela">Filtriraj</p>
+                    </button>
                     <span class="col-2"></span>
-                    <button mat-stroked-button color="warn" (click)='resetujFilter()'>Ponisti</button>
+                    <button mat-stroked-button class="button-error" (click)='resetujFilter()'>
+                        <p class="boja-kontra-bela">Ponisti</p>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="d-flex flex-column prazna-tabela" *ngIf="!pronadjenaRoba">
+        <i class="material-icons icon-size">
+            error_outline
+        </i>
+        <h1 class="h1-upozorenje">Artikal ne postoji</h1>
+    </div>
 
-    <div class="tabela-div mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+    <div class="d-flex justify-content-center prazna-tabela" *ngIf="ucitavanje">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div class="tabela-div" *ngIf="dataSource != null && dataSource.length > 0">
+        <table mat-table [dataSource]="dataSource">
+
             <!-- Kataloski broj Column -->
             <ng-container matColumnDef="katbr">
-                <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj </th>
+                <th mat-header-cell    *matHeaderCellDef> Kataloski broj </th>
                 <td mat-cell *matCellDef="let roba">
                     <p class="mat-body-2">
                         {{roba.katbr}}
@@ -73,7 +91,7 @@
 
             <!-- Kataloski broj proizvodjaca Column -->
             <ng-container matColumnDef="katbrpro">
-                <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj proizvodjaca </th>
+                <th mat-header-cell    *matHeaderCellDef> Kataloski broj proizvodjaca </th>
                 <td mat-cell *matCellDef="let roba">
                     <p class="mat-body-1">
                         {{roba.katbrpro}}
@@ -103,23 +121,23 @@
 
             <!-- Cena Column -->
             <ng-container matColumnDef="cena">
-                <th mat-header-cell *matHeaderCellDef> Cena </th>
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Cena </th>
                 <td mat-cell *matCellDef="let roba">
-                    <p class="mat-body-2">
-                        {{roba.cena}}
+                    <p class="mat-body-2 text-right iznos-margin">
+                        {{roba.cena | currency:" "}} RSD
                     </p>
                 </td>
             </ng-container>
 
             <!-- Stanje Column -->
             <ng-container matColumnDef="stanje">
-                <th mat-header-cell *matHeaderCellDef> Stanje </th>
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Stanje </th>
                 <td mat-cell *matCellDef="let roba">
-                    <div *ngIf="roba.stanje > 0">
-                        <mat-icon class="gren-icon">check_circle_outline</mat-icon>
+                    <div *ngIf="roba.stanje > 0" class="text-center">
+                        <mat-icon class="boja-confirm">check_circle_outline</mat-icon>
                     </div>
                     <div *ngIf="roba.stanje == 0">
-                        <mat-icon color="accent">remove_circle_outline</mat-icon>
+                        <mat-icon class="boja-error">remove_circle_outline</mat-icon>
                     </div>
                 </td>
             </ng-container>
@@ -130,7 +148,8 @@
                 <th mat-header-cell *matHeaderCellDef>Kolicina </th>
                 <td mat-cell *matCellDef="let roba">
                     <div *ngIf="roba.stanje > 0">
-                            <input type="number" min="1" max="{{roba.stanje}}" class="kolicina-labela" [(ngModel)]="roba.kolicina" class="kolicina-input" />
+                        <input type="number" min="0" placeholder="0" max="{{roba.stanje}}" class="kolicina-labela"
+                            [(ngModel)]="roba.kolicina" />
                     </div>
             </ng-container>
 
@@ -139,7 +158,7 @@
                 <th mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let roba">
                     <div *ngIf="roba.stanje > 0">
-                        <button mat-raised-button color="primary" (click)='dodajUKorpu(roba)'>Dodaj u korpu</button>
+                        <button mat-raised-button class="button-glavni" (click)='dodajUKorpu(roba)'>Dodaj u korpu</button>
                     </div>
             </ng-container>
 
@@ -148,12 +167,12 @@
                 <th mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let roba">
                     <div *ngIf="uKorpi(roba.katbr)">
-                        <mat-icon color="accent">add_shopping_cart</mat-icon>
+                        <mat-icon class="boja-error">add_shopping_cart</mat-icon>
                     </div>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();"></tr>
         </table>
         <mat-paginator #paginator [length]="tableLength" [pageSize]="rowsPerPage" [pageSizeOptions]="[5, 10, 25]"
             [pageIndex]="pageIndex" [length]="tableLength" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">

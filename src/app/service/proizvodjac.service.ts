@@ -1,77 +1,67 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs';
-import { map, timeout, catchError } from 'rxjs/operators';
-import { Proizvodjac } from '../model/proizvodjac';
+import { Observable, throwError } from 'rxjs';
+import { map, timeoutWith, catchError } from 'rxjs/operators';
+import { Proizvodjac } from '../model/dto';
+import { AppUtilsService } from '../utils/app-utils.service';
+import { HttpClient } from '@angular/common/http';
 
 const DOMAIN_URL = 'http://localhost:8080/api';
 const ROBA_URL = '/proizvodjaci';
 const FILTERI_URL = '/filteri';
 const AKUMULATORI_URL = '/akumulatori';
 const ULJA_URL = '/ulja';
-const MOTORNA_UTL = '/motorna';
+
+const TIMEOUT = 15000;
+const TIMEOUT_ERROR = 'Timeout error!';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProizvodjacService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient, private utils: AppUtilsService) { }
 
-  public pronadjiSveProizvodjace(): Observable<Proizvodjac[]> {
+  public pronadjiSveProizvodjace(): Observable<any> {
     const fullUrl = DOMAIN_URL + ROBA_URL;
 
     return this.http
         .get(fullUrl)
-        .pipe(map((response: any) => response.json()));
+        .pipe(
+          timeoutWith(TIMEOUT, throwError(TIMEOUT_ERROR)),
+          catchError((error: any) => throwError(error))
+        );
   }
 
-  public pronadjiSveProizvodjaceFiltera(): Observable<Proizvodjac[]> {
+  public pronadjiSveProizvodjaceFiltera(): Observable<any> {
     const fullUrl = DOMAIN_URL + ROBA_URL + FILTERI_URL;
 
     return this.http
         .get(fullUrl)
-        .pipe(map((response: any) => response.json()));
+        .pipe(
+          timeoutWith(TIMEOUT, throwError(TIMEOUT_ERROR)),
+          catchError((error: any) => throwError(error))
+        );
   }
 
-  public pronadjiSveProizvodjaceAkumulatora(): Observable<Proizvodjac[]> {
+  public pronadjiSveProizvodjaceAkumulatora(): Observable<any> {
     const fullUrl = DOMAIN_URL + ROBA_URL + AKUMULATORI_URL;
 
     return this.http
         .get(fullUrl)
-        .pipe(map((response: any) => response.json()));
+        .pipe(
+          timeoutWith(TIMEOUT, throwError(TIMEOUT_ERROR)),
+          catchError((error: any) => throwError(error))
+        );
   }
 
-  public pronadjiSveProizvodjaceUljaPoVrsti(vrstaUlja): Observable<Proizvodjac[]> {
-    let fullUrl = DOMAIN_URL + ROBA_URL + ULJA_URL;
-    if (vrstaUlja === 'motorna') {
-      fullUrl = fullUrl + '/motorna';
-    } else if (vrstaUlja === 'menjacka') {
-      fullUrl = fullUrl + '/menjacka';
-    } else if (vrstaUlja === 'kociona') {
-      fullUrl = fullUrl + '/kociona';
-    } else if (vrstaUlja === 'antifriz') {
-      fullUrl = fullUrl + '/antifriz';
-    } else if (vrstaUlja === 'hidraulicna') {
-      fullUrl = fullUrl + '/hidraulicna';
-    } else if (vrstaUlja === 'kompresorska') {
-      fullUrl = fullUrl + '/kompresorska';
-    } else if (vrstaUlja === 'redutktorska') {
-      fullUrl = fullUrl + '/redutktorska';
-    } else if (vrstaUlja === 'transformatorska') {
-      fullUrl = fullUrl + '/transformatorska';
-    } else if (vrstaUlja === 'turbinska') {
-      fullUrl = fullUrl + '/turbinska';
-    } else if (vrstaUlja === 'pneumatska') {
-      fullUrl = fullUrl + '/pneumatska';
-    } else if (vrstaUlja === 'klizna') {
-      fullUrl = fullUrl + '/klizna';
-    } else if (vrstaUlja === 'prenosna') {
-      fullUrl = fullUrl + '/prenosna';
-    }
+  public pronadjiSveProizvodjaceUljaPoVrsti(vrstaUlja): Observable<any> {
+    const fullUrl = DOMAIN_URL + ROBA_URL + ULJA_URL + this.utils.vratiPutDoResursaZaUlje(vrstaUlja);
+
     return this.http
         .get(fullUrl)
-        .pipe(map((response: any) => response.json()));
+        .pipe(
+          timeoutWith(TIMEOUT, throwError(TIMEOUT_ERROR)),
+          catchError((error: any) => throwError(error))
+        );
   }
-
 }

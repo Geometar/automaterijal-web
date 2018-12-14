@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Korpa, RobaKorpa } from '../model/porudzbenica';
 import { LocalStorageService } from './local-storage.service';
-import { Roba } from '../model/roba';
+import { Roba } from '../model/dto';
 
 @Injectable({
   providedIn: 'root'

@@ -1,0 +1,122 @@
+<div class="container-fluid">
+    <main>
+        <div *ngIf="dataSource != null && dataSource.length > 0">
+            <h1>Moje porudzbenice</h1>
+            <div class="tabela-div">
+                <table mat-table [dataSource]="dataSource">
+
+                    <!-- Kataloski broj Column -->
+                    <ng-container matColumnDef="orderId">
+                        <th mat-header-cell *matHeaderCellDef> Broj Fakture </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-2">
+                                {{faktura.orderId}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Kataloski broj proizvodjaca Column -->
+                    <ng-container matColumnDef="nacinPlacanja">
+                        <th mat-header-cell *matHeaderCellDef> Nacin Placanja</th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-1">
+                                {{faktura.nacinPlacanja.naziv}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Naziv Column -->
+                    <ng-container matColumnDef="nacinPrevoza">
+                        <th mat-header-cell *matHeaderCellDef> Nacin Prevoza </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-1">
+                                {{"prevoz_" + faktura.nacinPrevoza.id | translate}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Proizvodjac Column -->
+                    <ng-container matColumnDef="adresa">
+                        <th mat-header-cell *matHeaderCellDef> Adresa </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-1">
+                                {{faktura.adresa.naziv}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Cena Column -->
+                    <ng-container matColumnDef="napomena">
+                        <th mat-header-cell *matHeaderCellDef> Napomena </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-1">
+                                {{faktura.napomena | empty}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Broj stavki Column -->
+                    <ng-container matColumnDef="brojStavki">
+                        <th mat-header-cell *matHeaderCellDef>Broj stavki</th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-1">
+                                {{faktura.brojStavki}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Cena Column -->
+                    <ng-container matColumnDef="iznos">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Ukupan iznos </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-2 text-right iznos-margin">
+                                {{faktura.iznos | currency:" "}} RSD
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Vreme porucivanja Column -->
+                    <ng-container matColumnDef="vremePorucivanja">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Datum </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-1" class="text-center">
+                                {{faktura.vremePorucivanja | datum}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <p class="mat-body-2">
+                                {{faktura.status.naziv}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Akcije Column -->
+                    <ng-container matColumnDef="ackije">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let faktura">
+                            <button class="button-glavni" mat-raised-button (click)="detaljiFakture(faktura.id)">Detalji</button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator #paginator [length]="tableLength" [pageSize]="rowsPerPage" [pageSizeOptions]="[5, 10, 25]"
+                    [pageIndex]="pageIndex" [length]="tableLength" [showFirstLastButtons]="true" (page)="paginatorEvent($event)">
+                </mat-paginator>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column prazna-tabela" *ngIf="error">
+            <i class="material-icons icon-size">
+                error_outline
+            </i>
+            <h1 class="h1-upozorenje">Istorija porucivanja je prazna</h1>
+        </div>
+    </main>
+</div>

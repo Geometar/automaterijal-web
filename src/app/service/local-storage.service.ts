@@ -1,16 +1,32 @@
 import { Injectable, Inject } from '@angular/core';
-import { LOCAL_STORAGE, StorageService } from 'angular-webstorage-service';
+import { SESSION_STORAGE, StorageService } from 'angular-webstorage-service';
 import { Korpa, RobaKorpa } from '../model/porudzbenica';
-import { Roba } from '../model/roba';
+import { Partner } from '../model/dto';
 
 const KORPA_KLJUC = 'korpa_roba';
+const PARTNER_KLJUC = 'partner_kljuc';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageService {
 
-  constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) { }
+  constructor(@Inject(SESSION_STORAGE) private storage: StorageService) { }
+
+  public sacuvajPartneraUMemoriju(partner: Partner ) {
+    if (partner != null && partner.ppid != null) {
+    this.storage.set(PARTNER_KLJUC, partner);
+    }
+  }
+
+  public logout() {
+    this.storage.remove(PARTNER_KLJUC);
+    this.storage.remove(KORPA_KLJUC);
+  }
+
+  public procitajPartneraIzMemorije() {
+    return this.storage.get(PARTNER_KLJUC);
+  }
 
   public vratiKorpuIzMemorije(): Korpa {
     return this.storage.get(KORPA_KLJUC);

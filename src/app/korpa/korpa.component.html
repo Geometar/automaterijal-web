@@ -1,88 +1,109 @@
 <div class="grid-container">
-  <div class="tabela-div" *ngIf="dataSource.length > 0">
-      <table mat-table [dataSource]="dataSource"  matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
-          <!-- Kataloski broj Column -->
-          <ng-container matColumnDef="katbr">
-              <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj </th>
-              <td mat-cell *matCellDef="let roba">
-                  <p class="mat-body-2">
-                      {{roba.katbr}}
-                  </p>
-              </td>
-          </ng-container>
+    <main>
+        <div class="d-flex flex-column prazna-tabela" *ngIf="dataSource.length == 0">
+            <i class="material-icons icon-size">
+                shopping_cart
+            </i>
+            <h1 class="h1-upozorenje">Korpa je trenutno prazna</h1>
+        </div>
+        <div class="tabela-div" *ngIf="dataSource.length > 0">
+            <div style="overflow-x:auto;">
+                <table mat-table [dataSource]="dataSource"        class="mat-elevation-z8">
+                    <!-- Kataloski broj Column -->
+                    <ng-container matColumnDef="katbr">
+                        <th mat-header-cell    *matHeaderCellDef> Kataloski broj </th>
+                        <td mat-cell *matCellDef="let roba">
+                            <p class="mat-body-2">
+                                {{roba.katbr}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-          <!-- Kataloski broj proizvodjaca Column -->
-          <ng-container matColumnDef="katbrpro">
-              <th mat-header-cell mat-sort-header *matHeaderCellDef> Kataloski broj proizvodjaca </th>
-              <td mat-cell *matCellDef="let roba">
-                  <p class="mat-body-1">
-                      {{roba.katbrpro}}
-                  </p>
-              </td>
-          </ng-container>
+                    <!-- Kataloski broj proizvodjaca Column -->
+                    <ng-container matColumnDef="katbrpro">
+                        <th mat-header-cell    *matHeaderCellDef> Kataloski broj proizvodjaca </th>
+                        <td mat-cell *matCellDef="let roba">
+                            <p class="mat-body-1">
+                                {{roba.katbrpro}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-          <!-- Naziv Column -->
-          <ng-container matColumnDef="naziv">
-              <th mat-header-cell *matHeaderCellDef> Naziv </th>
-              <td mat-cell *matCellDef="let roba">
-                  <p class="mat-body-1">
-                      {{roba.naziv}}
-                  </p>
-              </td>
-          </ng-container>
+                    <!-- Naziv Column -->
+                    <ng-container matColumnDef="naziv">
+                        <th mat-header-cell *matHeaderCellDef> Naziv </th>
+                        <td mat-cell *matCellDef="let roba">
+                            <p class="mat-body-1">
+                                {{roba.naziv}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-          <!-- Proizvodjac Column -->
-          <ng-container matColumnDef="proizvodjac">
-              <th mat-header-cell *matHeaderCellDef> Proizvodjac </th>
-              <td mat-cell *matCellDef="let roba">
-                  <p class="mat-body-2">
-                      {{roba.proizvodjac}}
-                  </p>
-              </td>
-          </ng-container>
+                    <!-- Proizvodjac Column -->
+                    <ng-container matColumnDef="proizvodjac">
+                        <th mat-header-cell *matHeaderCellDef> Proizvodjac </th>
+                        <td mat-cell *matCellDef="let roba">
+                            <p class="mat-body-2">
+                                {{roba.proizvodjac}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-          <!-- Cena Column -->
-          <ng-container matColumnDef="kolicina">
-              <th mat-header-cell *matHeaderCellDef> Kolicina </th>
-              <td mat-cell *matCellDef="let roba">
-                  <p class="mat-body-2">
-                      {{roba.kolicina}}
-                  </p>
-              </td>
-          </ng-container>
+                    <!-- Cena Column -->
+                    <ng-container matColumnDef="kolicina">
+                        <th mat-header-cell *matHeaderCellDef> Kolicina </th>
+                        <td mat-cell *matCellDef="let roba">
+                            <p class="mat-body-2">
+                                {{roba.kolicina}}
+                            </p>
+                        </td>
+                    </ng-container>
 
-          <!-- Cena Column -->
-          <ng-container matColumnDef="cena">
-              <th mat-header-cell *matHeaderCellDef> Ukupna Cena </th>
-              <td mat-cell *matCellDef="let roba">
-                <p class="mat-body-2">
-                    {{roba.cenaUkupno}} DIN
-                </p>
-              </td>
-          </ng-container>
+                    <!-- Cena Column -->
+                    <ng-container matColumnDef="cena">
+                        <th mat-header-cell *matHeaderCellDef> Ukupno </th>
+                        <td mat-cell *matCellDef="let roba">
+                            <p class="mat-body-2">
+                                {{roba.cenaUkupno}} DIN
+                            </p>
+                        </td>
+                    </ng-container>
 
-          <!-- Kropa dugme Column -->
-          <ng-container matColumnDef="korpa">
-              <th mat-header-cell *matHeaderCellDef> </th>
-              <td mat-cell *matCellDef="let roba">
-                  <div *ngIf="roba.stanje > 0">
-                      <button mat-raised-button color="primary">Dodaj u korpu</button>
-                  </div>
-          </ng-container>
+                    <!-- Kolicina Column -->
+                    <ng-container matColumnDef="izbaciDugme">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let roba; let i = index;">
+                            <span class="col-lg-1 col-"></span>
+                            <button class="button-glavni" mat-raised-button (click)="otvoriDialog(roba)">Izmeni</button>
+                            <span class="col-lg-1 col-"></span>
+                            <button class="button-error" mat-raised-button (click)='izbaciIzKorpe(i)'>Izbaci</button>
+                    </ng-container>
 
-          <!-- Kolicina Column -->
-          <ng-container matColumnDef="izbaciDugme">
-              <th mat-header-cell *matHeaderCellDef> </th>
-              <td mat-cell *matCellDef="let roba; let i = index;">
-                    <button type="button" class="btn razmakni btn-primary btn-sm" (click)="otvoriDialog(roba)">Izmeni</button>
-                    <button type="button" class="btn razmakni btn-danger btn-sm" (click)='izbaciIzKorpe(i)'>Izbaci</button>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-  </div>
-  <div *ngIf="dataSource.length == 0">
-      <h1>Korpa je trenutno prazna</h1>-
-  </div>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            <div class="d-flex flex-column flex-sm-row">
+                <div class="flex-fill">Forma</div>
+                <div class="d-flex flex-fill justify-content-end">
+                    <table class="table sirina-cena">
+                        <tbody>
+                            <tr>
+                                <td class="pozadina-glavna-50 boja-kontra-bela">Bez pdv-a: </td>
+                                <td class="text-right">{{bezPdv | currency:" "}} RSD</td>
+                            </tr>
+                            <tr>
+                                <td class="pozadina-glavna-50 boja-kontra-bela">Pdv: </td>
+                                <td class="text-right">{{pdv | currency:" "}} RSD</td>
+                            </tr>
+                            <tr>
+                                <td class="pozadina-glavna-50 boja-kontra-bela">Ukupno za uplatu: </td>
+                                <td class="text-right"><b>{{ukupno | currency:" "}} RSD</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>

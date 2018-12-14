@@ -1,79 +1,97 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  <mat-sidenav #drawer class="sidenav sidebar-color" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-    <mat-toolbar color="primary">Meni</mat-toolbar>
-    <mat-nav-list>
-      <h3 mat-subheader>Automaterijal</h3>
-      <mat-list-item class="material-icons" [routerLink]="['naslovna']">
-        <mat-icon mat-list-icon>home</mat-icon>
+    <mat-toolbar *ngIf="partner.ppid" class="side-toolbar sidebar-color header-pozicija">
+      <div class="d-flex flex-column ">
+        <div class="d-flex justify-content-center header-sirina">
+          <mat-icon class="icon-color">person</mat-icon>
+        </div>
+        <p class="text-center header-navigacija">{{partner.naziv}}</p>
+        <p class="text-center header-navigacija">{{partner.email}}</p>
+      </div>
+    </mat-toolbar>
+    <mat-nav-list [class.margin-gore]="partner.ppid">
+      <mat-divider *ngIf="partner.ppid" class="icon-color"></mat-divider>
+      <mat-list-item class="material-icons" [routerLink]="['naslovna']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>home</mat-icon>
         <p mat-line>Naslovna</p>
       </mat-list-item>
 
-      <mat-list-item class="material-icons" [routerLink]="['o-nama']">
-        <mat-icon mat-list-icon>book</mat-icon>
+      <mat-list-item class="material-icons" [routerLink]="['o-nama']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>book</mat-icon>
         <p mat-line>O nama</p>
       </mat-list-item>
 
-      <mat-list-item class="material-icons" [routerLink]="['kontakt']">
-        <mat-icon mat-list-icon>contact_phone</mat-icon>
+      <mat-list-item class="material-icons" [routerLink]="['kontakt']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>contact_phone</mat-icon>
         <p mat-line>Kontakt</p>
       </mat-list-item>
     </mat-nav-list>
 
     <mat-divider></mat-divider>
     <mat-nav-list>
-      <h3 mat-subheader>Internet prodavnica</h3>
+      <h3 class="icon-color" mat-subheader>Internet prodavnica</h3>
 
-      <mat-list-item class="material-icons" [routerLink]="['roba']">
-        <mat-icon mat-list-icon>searche</mat-icon>
+      <mat-list-item class="material-icons" [routerLink]="['roba']" [routerLinkActive]="['is-active']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>searche</mat-icon>
         <p mat-line>Roba - pretraga</p>
       </mat-list-item>
-      
 
-      <mat-list-item class="material-icons" [routerLink]="['ulja']">
-          <mat-icon mat-list-icon>invert_colors</mat-icon>
-          <p mat-line>Ulja</p>
-        </mat-list-item>        
 
-      <mat-list-item class="material-icons" [routerLink]="['filteri']">
-          <mat-icon mat-list-icon>layers</mat-icon>
-          <p mat-line>Filteri</p>
+      <mat-list-item class="material-icons" [routerLink]="['ulja']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>invert_colors</mat-icon>
+        <p mat-line>Ulja</p>
       </mat-list-item>
 
-      <mat-list-item class="material-icons" [routerLink]="['akumulatori']">
-          <mat-icon mat-list-icon>battery_charging_full</mat-icon>
-          <p mat-line>Akumulatori</p>
-        </mat-list-item>
+      <mat-list-item class="material-icons" [routerLink]="['filteri']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>layers</mat-icon>
+        <p mat-line>Filteri</p>
+      </mat-list-item>
 
-        <mat-list-item class="material-icons" [routerLink]="['korpa']">
-            <mat-icon mat-list-icon>category</mat-icon>
-            <p mat-line>Ostalo</p>
-          </mat-list-item>
-      <mat-list-item class="material-icons" [routerLink]="['korpa']">
-        <mat-icon  matBadge="{{test}}" matBadgeColor="warn" mat-list-icon>shopping_cart</mat-icon>
+      <mat-list-item class="material-icons" [routerLink]="['akumulatori']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>battery_charging_full</mat-icon>
+        <p mat-line>Akumulatori</p>
+      </mat-list-item>
+
+      <mat-list-item class="material-icons" [routerLink]="['korpa']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>category</mat-icon>
+        <p mat-line>Ostalo</p>
+      </mat-list-item>
+      <mat-list-item class="material-icons" *ngIf="partner.ppid" [routerLink]="['korpa']" [routerLinkActive]="['is-active']">
+        <mat-icon matBadgeColor="warn" class="icon-color" matBadge="{{korpaBadge}}" mat-list-icon>shopping_cart</mat-icon>
         <p mat-line>Korpa</p>
       </mat-list-item>
     </mat-nav-list>
 
     <mat-divider></mat-divider>
-    <mat-nav-list>
-      <h3 mat-subheader>Moj Profil</h3>
-      <mat-list-item class="material-icons" [routerLink]="['korpa']">
-        <mat-icon mat-list-icon>person</mat-icon>
+    <mat-nav-list *ngIf="partner.ppid">
+      <h3 class="icon-color" mat-subheader>Moj Profil</h3>
+      <mat-list-item class="material-icons" [routerLink]="['korpa']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>person</mat-icon>
         <p mat-line>Licni Podaci</p>
       </mat-list-item>
-      <mat-list-item class="material-icons" [routerLink]="['korpa']">
-        <mat-icon mat-list-icon>list</mat-icon>
+      <mat-list-item class="material-icons" [routerLink]="['porudzbenice']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>list</mat-icon>
         <p mat-line>Porudzbine</p>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+      <mat-list-item *ngIf="partner.ppid == null" class="material-icons" [routerLink]="['login']" [routerLinkActive]="['is-active']">
+        <mat-icon class="icon-color" mat-list-icon>exit_to_app</mat-icon>
+        <p mat-line>Login</p>
+      </mat-list-item>
+      <mat-list-item *ngIf="partner.ppid" class="material-icons" (click)="otvoriDialog()">
+        <mat-icon class="icon-color" mat-list-icon>power_settings_new</mat-icon>
+        <p mat-line>Logout</p>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    <mat-toolbar *ngIf="isHandset$ | async" class="header-pozicija sidebar-color">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon class="icon-color" aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Automaterijal - internet prodavnica</span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
